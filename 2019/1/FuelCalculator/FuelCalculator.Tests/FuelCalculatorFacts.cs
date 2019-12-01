@@ -20,5 +20,13 @@ namespace FuelCalculator.Tests
 
             Assert.Equal(0, new FuelCalculator().CalculateForMass(mass));
         }
+
+        [Theory]
+        [InlineData(12, 2)]
+        [InlineData(14, 2)]
+        public void RequiredFuelForSampleMassesIsCalculatedCorrectly(int mass, int requiredFuel)
+        {
+            Assert.Equal(requiredFuel, new FuelCalculator().CalculateForMass(mass));
+        }
     }
 }

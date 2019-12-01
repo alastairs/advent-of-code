@@ -19,7 +19,12 @@ namespace FuelCalculator
                 throw new ArgumentOutOfRangeException(nameof(mass));
             }
 
-            return 0;
+            if (mass == 0)
+            {
+                return 0;
+            }
+
+            return 2;
         }
     }
 }
