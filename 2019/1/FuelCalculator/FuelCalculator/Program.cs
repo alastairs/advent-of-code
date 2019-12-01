@@ -14,7 +14,12 @@ namespace FuelCalculator
     {
         public int CalculateForMass(in int mass)
         {
-            throw new ArgumentOutOfRangeException(nameof(mass));
+            if (mass < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(mass));
+            }
+
+            return 0;
         }
     }
 }

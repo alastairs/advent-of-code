@@ -12,5 +12,13 @@ namespace FuelCalculator.Tests
 
             Assert.Throws<ArgumentOutOfRangeException>(() => new FuelCalculator().CalculateForMass(mass));
         }
+
+        [Fact]
+        public void RequiredFuelForZeroMassIsZero()
+        {
+            const int mass = 0;
+
+            Assert.Equal(0, new FuelCalculator().CalculateForMass(mass));
+        }
     }
 }
