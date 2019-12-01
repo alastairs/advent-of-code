@@ -39,15 +39,8 @@ namespace FuelCalculator
     {
         public int AggregateFuelForModules(IEnumerable<int> moduleMasses)
         {
-            return CalculateForMass(
-                moduleMasses.AsParallel()
-                    .Aggregate(
-                        0,
-                        (t, moduleMass) =>
-                        {
-                            var fuelMass = CalculateForMass(moduleMass);
-                            return t + fuelMass + CalculateForFuelMass(fuelMass);
-                        }));
+            return moduleMasses.AsParallel()
+                    .Sum(moduleMass => CalculateForFuelMass(CalculateForMass(moduleMass)));
         }
 
         public int CalculateForFuelMass(int mass)
