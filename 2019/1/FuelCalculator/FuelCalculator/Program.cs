@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -17,12 +19,9 @@ namespace FuelCalculator
             var modules = await File.ReadAllLinesAsync(path, cancellation.Token);
             var fuelCalculator = new FuelCalculator();
 
-            var totalMass = modules.AsParallel()
-                .Select(int.Parse)
-                .Aggregate(
-                    0,
-                    (t, moduleMass) =>
-                        t + fuelCalculator.CalculateForMass(moduleMass));
+            var totalMass = fuelCalculator
+                .AggregateFuelForModules(
+                    modules.AsParallel().Select(int.Parse));
 
             Console.WriteLine($"Total required fuel mass is: {totalMass}");
         }
@@ -30,6 +29,19 @@ namespace FuelCalculator
 
     public class FuelCalculator
     {
+        public int AggregateFuelForModules(IEnumerable<int> moduleMasses)
+        {
+            return CalculateForMass(
+                moduleMasses.AsParallel()
+                    .Aggregate(
+                        0,
+                        (t, moduleMass) =>
+                        {
+                            var fuelMass = CalculateForMass(moduleMass);
+                            return t + fuelMass + CalculateForFuelMass(fuelMass);
+                        }));
+        }
+
         public int CalculateForFuelMass(int mass)
         {
             if (mass < 5)
