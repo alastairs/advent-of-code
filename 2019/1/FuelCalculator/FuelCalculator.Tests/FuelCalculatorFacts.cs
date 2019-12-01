@@ -30,5 +30,14 @@ namespace FuelCalculator.Tests
         {
             Assert.Equal(requiredFuel, new FuelCalculator().CalculateForMass(mass));
         }
+
+        [Theory]
+        [InlineData(2, 2)]
+        [InlineData(654, 966)]
+        [InlineData(33583, 50346)]
+        public void AddsFuelForFuelMass(int fuelMass, int requiredFuel)
+        {
+            Assert.Equal(requiredFuel, new FuelCalculator().CalculateForFuelMass(fuelMass));
+        }
     }
 }

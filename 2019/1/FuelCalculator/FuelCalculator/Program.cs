@@ -30,6 +30,16 @@ namespace FuelCalculator
 
     public class FuelCalculator
     {
+        public int CalculateForFuelMass(int mass)
+        {
+            if (mass < 5)
+            {
+                return mass;
+            }
+
+            return mass + CalculateForFuelMass(CalculateForMass(mass));
+        }
+
         public int CalculateForMass(int mass)
         {
             if (mass < 0)
