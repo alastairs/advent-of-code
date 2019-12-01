@@ -12,19 +12,19 @@ namespace FuelCalculator
 
     public class FuelCalculator
     {
-        public int CalculateForMass(in int mass)
+        public int CalculateForMass(int mass)
         {
             if (mass < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(mass));
             }
 
-            if (mass == 0)
+            int CalculateRequiredFuelMass()
             {
-                return 0;
+                return (int) Math.Floor((double) mass / 3) - 2;
             }
 
-            return 2;
+            return Math.Max(0, CalculateRequiredFuelMass());
         }
     }
 }
