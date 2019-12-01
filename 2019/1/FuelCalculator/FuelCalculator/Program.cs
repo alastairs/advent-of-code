@@ -1,12 +1,30 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FuelCalculator
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var path = args[0];
+            var cancellation = new CancellationTokenSource();
+            Console.CancelKeyPress += (s, e) => cancellation.Cancel();
+
+            var modules = await File.ReadAllLinesAsync(path, cancellation.Token);
+            var fuelCalculator = new FuelCalculator();
+
+            var totalMass = modules.AsParallel()
+                .Select(int.Parse)
+                .Aggregate(
+                    0,
+                    (t, moduleMass) =>
+                        t + fuelCalculator.CalculateForMass(moduleMass));
+
+            Console.WriteLine($"Total required fuel mass is: {totalMass}");
         }
     }
 
