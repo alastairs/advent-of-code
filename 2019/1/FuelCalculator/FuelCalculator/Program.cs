@@ -16,12 +16,20 @@ namespace FuelCalculator
             var cancellation = new CancellationTokenSource();
             Console.CancelKeyPress += (s, e) => cancellation.Cancel();
 
-            var modules = await File.ReadAllLinesAsync(path, cancellation.Token);
+            int totalMass;
             var fuelCalculator = new FuelCalculator();
 
-            var totalMass = fuelCalculator
-                .AggregateFuelForModules(
-                    modules.AsParallel().Select(int.Parse));
+            if (int.TryParse(args[0], out var moduleMass))
+            {
+                totalMass = fuelCalculator.AggregateFuelForModules(new[] { moduleMass });
+            }
+            else
+            {
+                var modules = await File.ReadAllLinesAsync(path, cancellation.Token);
+                totalMass = fuelCalculator
+                    .AggregateFuelForModules(
+                        modules.AsParallel().Select(int.Parse));
+            }
 
             Console.WriteLine($"Total required fuel mass is: {totalMass}");
         }
