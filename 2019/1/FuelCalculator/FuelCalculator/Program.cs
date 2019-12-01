@@ -9,4 +9,12 @@ namespace FuelCalculator
             Console.WriteLine("Hello World!");
         }
     }
+
+    public class FuelCalculator
+    {
+        public int CalculateForMass(in int mass)
+        {
+            throw new ArgumentOutOfRangeException(nameof(mass));
+        }
+    }
 }
