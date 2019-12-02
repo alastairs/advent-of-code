@@ -1,5 +1,3 @@
-using System;
-
 namespace Intcode
 {
     public class IntcodeOperation
@@ -16,7 +14,7 @@ namespace Intcode
 
         public static IntcodeOperation Stop()
         {
-            throw new NotImplementedException();
+            return new StopOperation();
         }
     }
 }

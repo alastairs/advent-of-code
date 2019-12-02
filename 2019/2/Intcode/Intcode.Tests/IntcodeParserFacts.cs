@@ -29,5 +29,16 @@ namespace Intcode.Tests
             var expected = new IntcodeProgram(new[] { Multiply(1, 1, 3) });
             Assert.Equal(expected, program);
         }
+
+        [Fact]
+        public void Opcode_99_is_stop()
+        {
+            const string input = "99";
+
+            var program = _sut.Parse(input);
+
+            var expected = new IntcodeProgram(new[] { Stop() });
+            Assert.Equal(expected, program);
+        }
     }
 }

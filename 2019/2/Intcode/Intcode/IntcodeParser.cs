@@ -23,9 +23,13 @@ namespace Intcode
             {
                 operation = Add(instructions[1], instructions[2], instructions[3]);
             }
-            else // if (instructions.First() == MultiplicationOperation.Opcode)
+            else if (instructions.First() == MultiplicationOperation.Opcode)
             {
                 operation = Multiply(instructions[1], instructions[2], instructions[3]);
+            }
+            else // if (instructions.First() == StopOperation.Opcode)
+            {
+                operation = Stop();
             }
 
             return new IntcodeProgram(new[] { operation });
