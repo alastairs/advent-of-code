@@ -1,6 +1,6 @@
 namespace Intcode
 {
-    public class IntcodeOperation
+    public abstract class IntcodeOperation
     {
         public static IntcodeOperation Add(int addend1, int addend2, int outputIndex)
         {
@@ -16,5 +16,7 @@ namespace Intcode
         {
             return new StopOperation();
         }
+
+        public abstract string Execute();
     }
 }

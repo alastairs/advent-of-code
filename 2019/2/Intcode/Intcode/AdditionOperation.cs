@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Intcode
 {
@@ -58,6 +59,11 @@ namespace Intcode
         public static bool operator !=(AdditionOperation left, AdditionOperation right)
         {
             return !Equals(left, right);
+        }
+
+        public override Task<string> Execute()
+        {
+            throw new NotImplementedException();
         }
     }
 }
