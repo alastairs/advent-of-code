@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace Intcode
@@ -17,30 +16,40 @@ namespace Intcode
             }
 
             var instructions = new IntcodeLexer().Read(input).ToArray();
-
-            IntcodeOperation operation;
-            if (instructions.First() == AdditionOperation.Opcode)
-            {
-                operation = Add(instructions[1], instructions[2], instructions[3]);
-            }
-            else if (instructions.First() == MultiplicationOperation.Opcode)
-            {
-                operation = Multiply(instructions[1], instructions[2], instructions[3]);
-            }
-            else // if (instructions.First() == StopOperation.Opcode)
-            {
-                operation = Stop();
-            }
-
-            return new IntcodeProgram(new[] { operation });
+            return new IntcodeProgram(instructions);
         }
     }
 
     internal class IntcodeLexer
     {
-        internal IEnumerable<int> Read(string input)
+        internal IEnumerable<IntcodeOperation> Read(string input)
         {
-            return input.Split(",").Select(n => int.Parse(n.Trim(), NumberFormatInfo.InvariantInfo));
+            return Read(input.Split(",").Select(int.Parse).ToList());
+        }
+
+        private static IEnumerable<IntcodeOperation> Read(IList<int> tokens)
+        {
+            var instructions = new List<IntcodeOperation>(tokens.Count / 4);
+            for (var i = 0; i < tokens.Count;)
+            {
+                switch (tokens[i])
+                {
+                    case StopOperation.Opcode:
+                        instructions.Add(Stop());
+                        i++;
+                        continue;
+                    case AdditionOperation.Opcode:
+                        instructions.Add(Add(tokens[i + 1], tokens[i + 2], tokens[i + 3]));
+                        break;
+                    case MultiplicationOperation.Opcode:
+                        instructions.Add(Multiply(tokens[i + 1], tokens[i + 2], tokens[i + 3]));
+                        break;
+                }
+
+                i += 4;
+            }
+
+            return instructions;
         }
     }
 }

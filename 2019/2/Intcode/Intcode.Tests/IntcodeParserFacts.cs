@@ -40,5 +40,26 @@ namespace Intcode.Tests
             var expected = new IntcodeProgram(new[] { Stop() });
             Assert.Equal(expected, program);
         }
+
+        [Fact]
+        public void Multiple_opcodes_and_arguments_form_a_program()
+        {
+            const string input = "1, 1, 1, 9," +
+                                 "2, 1, 1, 10," +
+                                 "99," +
+                                 "0," +
+                                 "0";
+
+            var program = _sut.Parse(input);
+
+            var expected = new IntcodeProgram(new[]
+            {
+                Add(1, 1, 9),
+                Multiply(1, 1, 10),
+                Stop()
+            });
+
+            Assert.Equal(program, expected);
+        }
     }
 }
