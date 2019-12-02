@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -8,9 +9,26 @@ namespace Intcode
 
     public class IntcodeParser
     {
-        public IntcodeProgram Parse(string input)
+        public IntcodeProgram Parse(in string input)
         {
-            return new IntcodeProgram(new[] { Add(1, 1, 3) });
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
+            var instructions = new IntcodeLexer().Read(input).ToArray();
+
+            IntcodeOperation operation;
+            if (instructions.First() == AdditionOperation.Opcode)
+            {
+                operation = Add(instructions[1], instructions[2], instructions[3]);
+            }
+            else // if (instructions.First() == MultiplicationOperation.Opcode)
+            {
+                operation = Multiply(instructions[1], instructions[2], instructions[3]);
+            }
+
+            return new IntcodeProgram(new[] { operation });
         }
     }
 
