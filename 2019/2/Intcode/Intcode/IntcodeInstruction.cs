@@ -25,7 +25,7 @@ namespace Intcode
                 return;
             }
 
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"Unknown opcode {_instruction[0]}");
         }
 
         private static bool IsAdd(Span<int> instruction)

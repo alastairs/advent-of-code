@@ -10,9 +10,9 @@ namespace Intcode.Tests
         {
             var program = new IntcodeParser().Parse(initialState);
 
-            var result = program.Execute();
+            program.Execute();
 
-            Assert.Equal(finalState, result);
+            Assert.Equal(finalState, string.Join(",", program.Memory.ToArray()));
         }
 
         public static IEnumerable<object[]> SampleCases()
