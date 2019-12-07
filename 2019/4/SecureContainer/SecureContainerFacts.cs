@@ -22,53 +22,44 @@ namespace SecureContainer
             const int start = 134564;
             const int end = 585159;
 
-            var searchSpaceSize = end - start;
-            Console.WriteLine($"Beginning search across space of {searchSpaceSize} integers");
-
-            var searchSpace = new List<int>(searchSpaceSize);
-            for (var i = start; i <= end; i++)
-            {
-                if (HasTwoAdjacentIdenticalDigits(i) && HasNoSequentiallyDecreasingDigits(i))
-                {
-                    searchSpace.Add(i);
-                }
-            }
-
-            Console.WriteLine($"There are {searchSpace.Count} potential passwords, and they are:");
-            foreach (var guess in searchSpace)
+            var possibilities = Enumerable.Range(start, end - start).Where(MatchesAllRequirements).ToList();
+            Console.WriteLine($"There are {possibilities.Count} potential passwords, and they are:");
+            foreach (var guess in possibilities)
             {
                 Console.WriteLine("  {0}", guess);
             }
         }
 
-        private static bool HasTwoAdjacentIdenticalDigits(int guess)
+        private static bool MatchesAllRequirements(int guess)
         {
-            var digits = $"{guess}".AsSpan();
+            var digits = guess.ToString().AsSpan();
 
+            var hasTwoSequentialDigits = false;
             for (var d = 0; d < digits.Length - 1; d++)
             {
-                if (digits[d] == digits[d + 1])
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool HasNoSequentiallyDecreasingDigits(int guess)
-        {
-            var digits = $"{guess}".AsSpan();
-
-            for (var d = 0; d < digits.Length - 1; d++)
-            {
+                // Digits must always increase or stay the same
                 if (digits[d] > digits[d + 1])
                 {
                     return false;
                 }
+
+                if (d < 5 && digits[d] == digits[d + 1])
+                {
+                    hasTwoSequentialDigits = true;
+                }
+
+                if (d < 4 && hasTwoSequentialDigits && digits[d] == digits[d + 2])
+                {
+                    hasTwoSequentialDigits = false;
+                }
+
+                if (d > 0 && hasTwoSequentialDigits && digits[d] == digits[d - 1])
+                {
+                    hasTwoSequentialDigits = false;
+                }
             }
 
-            return true;
+            return hasTwoSequentialDigits;
         }
     }
 }
