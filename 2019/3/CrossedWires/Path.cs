@@ -32,7 +32,7 @@ namespace CrossedWires
             return new HashSet<Point>(wire1Points.Intersect(wire2Points).Except(new[] { Point.Origin }).Distinct());
         }
 
-        private IEnumerable<Line> TraceFrom(Point start)
+        public IEnumerable<Line> TraceFrom(Point start)
         {
             var lines = new List<Line>();
 

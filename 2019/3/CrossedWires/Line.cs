@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CrossedWires
 {
@@ -25,6 +26,13 @@ namespace CrossedWires
         public static Line Between(Point a, Point b)
         {
             return Point.Between(a, b);
+        }
+
+        public int Length => _points.Count() - 1;
+
+        public override string ToString()
+        {
+            return $"{_points.First()} -> {_points.Last()} (Length {Length})";
         }
     }
 }
