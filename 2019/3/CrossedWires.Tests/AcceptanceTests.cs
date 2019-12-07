@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace CrossedWires.Tests
@@ -13,7 +14,7 @@ namespace CrossedWires.Tests
 
             var intersections = wire1Path.IntersectionPoints(wire2Path);
 
-            Assert.Equal(intersections.ClosestTo(new Point(0,0)), distance);
+            Assert.Equal(distance, intersections.Min(p => p.DistanceFrom(Point.Origin)));
         }
 
         public static IEnumerable<object[]> Samples()
