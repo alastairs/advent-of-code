@@ -131,8 +131,8 @@ namespace CrossedWires
                 return 0;
             }
 
-            var distance = (this > source) ? this - source : source - this;
-            return Math.Abs(distance.X + distance.Y);
+            var distance = this - source;
+            return Math.Abs(distance.X) + Math.Abs(distance.Y);
         }
 
         public static implicit operator Point((int, int) coordinates)
