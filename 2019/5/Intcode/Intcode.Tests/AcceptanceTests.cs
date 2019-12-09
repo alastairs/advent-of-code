@@ -5,7 +5,7 @@ namespace Intcode.Tests
 {
     public class AcceptanceTests
     {
-        [Theory, MemberData(nameof(SampleCases))]
+        [Theory, MemberData(nameof(SimpleSampleCases))]
         public void Sample_cases_are_evaluated_correctly(string initialState, string finalState)
         {
             var program = new IntcodeParser().Parse(initialState);
@@ -15,7 +15,7 @@ namespace Intcode.Tests
             Assert.Equal(finalState, string.Join(",", program.Memory.ToArray()));
         }
 
-        public static IEnumerable<object[]> SampleCases()
+        public static IEnumerable<object[]> SimpleSampleCases()
         {
             yield return new object[]
             {
@@ -78,6 +78,36 @@ namespace Intcode.Tests
                 "2,3,11,0," +
                 "99," +
                 "30,40,50"
+            };
+        }
+
+        [Theory, MemberData(nameof(IOSampleCases))]
+        public void IO_Sample_cases_are_evaluated_correctly(string initialState, string finalState, string input, string expectedOutput)
+        {
+            var program = new IntcodeParser().Parse(initialState);
+
+            var actualOutput = program.Execute(input);
+
+            Assert.Equal(finalState, string.Join(",", program.Memory.ToArray()));
+            Assert.Equal(expectedOutput, actualOutput);
+        }
+
+        public static IEnumerable<object[]> IOSampleCases()
+        {
+            // This program is equivalent to `echo`
+            yield return new object[]
+            {
+                // Initial state
+                "3,0,4,0,99",
+
+                // Final state is no different
+                "3,0,4,0,99",
+
+                // Input
+                "5",
+
+                // Output is identical to input
+                "5"
             };
         }
     }

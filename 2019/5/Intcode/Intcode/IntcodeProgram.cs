@@ -13,7 +13,7 @@ namespace Intcode
             Memory = operations?.ToArray().AsMemory() ?? throw new ArgumentNullException(nameof(operations));
         }
 
-        public void Execute()
+        public string Execute(in string input = null)
         {
             var executable = Memory.Span;
 
@@ -26,6 +26,8 @@ namespace Intcode
 
                 new IntcodeInstruction(executable.Slice(instructionPointer, 4)).Execute(executable);
             }
+
+            return string.Empty;
         }
 
         public IntcodeProgram Copy()
