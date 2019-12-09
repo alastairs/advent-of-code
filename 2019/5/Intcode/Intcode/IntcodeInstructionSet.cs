@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Intcode.InstructionSet;
 
 namespace Intcode
 {
     internal static class IntcodeInstructionSet
     {
-        private static IDictionary<Opcode, Func<int, int, int>> InstructionSet { get; } =
-            new Dictionary<Opcode, Func<int, int, int>>
+        private static IDictionary<Opcode, IIntcodeInstruction> InstructionSet { get; } =
+            new Dictionary<Opcode, IIntcodeInstruction>
             {
-                { Opcode.Addition, (i, j) => i + j },
-                { Opcode.Multiplication, (i, j) => i * j },
+                { AdditionInstruction.Opcode, new AdditionInstruction() },
+                { MultiplicationInstruction.Opcode, new MultiplicationInstruction() }
             };
 
-        public static bool Contains(int opcode, out Func<int, int, int> execute)
+        public static bool Contains(int opcode, out IIntcodeInstruction instruction)
         {
-            return InstructionSet.TryGetValue((Opcode)opcode, out execute);
+            return InstructionSet.TryGetValue((Opcode)opcode, out instruction);
         }
 
         internal enum Opcode
