@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Intcode.InstructionSet;
 
 namespace Intcode
 {
@@ -17,14 +18,15 @@ namespace Intcode
         {
             var executable = Memory.Span;
 
-            for (var instructionPointer = 0; instructionPointer < executable.Length; instructionPointer += 4)
+            var instructionPointer = 0;
+            while(!IntcodeInstruction.IsStop(executable[instructionPointer]))
             {
-                if (IntcodeInstruction.IsStop(executable[instructionPointer]))
+                if (IntcodeInstructionSet.Contains(executable[instructionPointer], out var instruction))
                 {
-                    break;
+                    new IntcodeInstruction(executable.Slice(instructionPointer, instruction.Size)).Execute(executable);
                 }
 
-                new IntcodeInstruction(executable.Slice(instructionPointer, 4)).Execute(executable);
+                instructionPointer += instruction.Size;
             }
 
             return string.Empty;
