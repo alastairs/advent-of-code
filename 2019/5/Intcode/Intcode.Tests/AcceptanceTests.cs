@@ -95,7 +95,7 @@ namespace Intcode.Tests
             program.Execute();
 
             Assert.Equal(finalState, string.Join(",", program.Memory.ToArray()));
-            Assert.Equal(expectedOutput, actualOutput.ToString());
+            Assert.Equal(expectedOutput, actualOutput.ToString().Trim());
         }
 
         public static IEnumerable<object[]> IOSampleCases()
@@ -113,7 +113,7 @@ namespace Intcode.Tests
                 "5",
 
                 // Output is identical to input
-                "5" + Environment.NewLine
+                "5"
             };
 
             yield return new object[]
@@ -140,7 +140,119 @@ namespace Intcode.Tests
                 "1",
 
                 // Output
-                "0" + Environment.NewLine
+                "0"
+            };
+        }
+
+        [Theory, MemberData(nameof(ComparisonSampleCases))]
+        public void Comparison_sample_cases_are_evaluated_correctly(string initialState, string input, string expectedOutput)
+        {
+            var program = new IntcodeParser().Parse(initialState);
+            Console.SetIn(new StringReader(input));
+
+            var actualOutput = new StringBuilder();
+            Console.SetOut(new StringWriter(actualOutput));
+            program.Execute();
+
+            Assert.Equal(expectedOutput, actualOutput.ToString().Trim());
+        }
+
+        public static IEnumerable<object[]> ComparisonSampleCases()
+        {
+            yield return new object[]
+            {
+                // Initial state
+                "3,9,8,9,10,9,4,9,99,-1,8",
+
+                // Input
+                "8",
+
+                // Output
+                "1"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,9,8,9,10,9,4,9,99,-1,8",
+
+                // Input
+                "-5",
+
+                // Output
+                "0"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,9,7,9,10,9,4,9,99,-1,8",
+
+                // Input
+                "-5",
+
+                // Output
+                "1"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,9,7,9,10,9,4,9,99,-1,8",
+
+                // Input
+                "10",
+
+                // Output
+                "0"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,3,1108,-1,8,3,4,3,99",
+
+                // Input
+                "8",
+
+                // Output
+                "1"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,3,1108,-1,8,3,4,3,99",
+
+                // Input
+                "-5",
+
+                // Output
+                "0"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,3,1107,-1,8,3,4,3,99",
+
+                // Input
+                "-5",
+
+                // Output
+                "1"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,3,1107,-1,8,3,4,3,99",
+
+                // Input
+                "10",
+
+                // Output
+                "0"
             };
         }
     }

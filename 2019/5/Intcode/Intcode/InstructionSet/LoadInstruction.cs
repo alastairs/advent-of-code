@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Intcode.InstructionSet
 {
@@ -12,7 +11,7 @@ namespace Intcode.InstructionSet
         public void Execute(int _, int __, ref int outputAddress)
         {
             var rawInput = Console.ReadLine();
-            outputAddress = int.Parse(rawInput, NumberStyles.None);
+            outputAddress = int.Parse(rawInput);
         }
     }
 }

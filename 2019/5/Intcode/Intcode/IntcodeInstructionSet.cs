@@ -12,6 +12,8 @@ namespace Intcode
                 { MultiplicationInstruction.Opcode, new MultiplicationInstruction() },
                 { LoadInstruction.Opcode, new LoadInstruction() },
                 { OutputInstruction.Opcode, new OutputInstruction() },
+                { LessThanInstruction.Opcode, new LessThanInstruction() },
+                { EqualsInstruction.Opcode, new EqualsInstruction() },
             };
 
         public static bool Contains(int opcode, out IIntcodeInstruction instruction)
@@ -30,6 +32,10 @@ namespace Intcode
             Multiplication = 2,
             Load = 3,
             Output = 4,
+            //JumpIfTrue = 5,
+            //JumpIfFalse = 6,
+            LessThan = 7,
+            Equals = 8,
 
             Stop = 99
         }
