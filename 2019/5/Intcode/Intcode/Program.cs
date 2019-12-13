@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 
 namespace Intcode
 {
@@ -62,12 +61,7 @@ Solve for a specific output:
 
             if (File.Exists(args[0]))
             {
-                var program = ParseInput(File.ReadAllText(args[0]));
-
-                program.Memory.Set(1, 12);
-                program.Memory.Set(2, 2);
-
-                ExecuteProgram(program);
+                ExecuteProgram(ParseInput(File.ReadAllText(args[0])));
                 return;
             }
 
@@ -85,7 +79,7 @@ Solve for a specific output:
         private static void ExecuteProgram(IntcodeProgram program)
         {
             program.Execute();
-            Console.WriteLine($"Output: {program.Memory.At(0)}");
+            Console.WriteLine($"Result: {program.Memory.At(0)}");
         }
     }
 }
