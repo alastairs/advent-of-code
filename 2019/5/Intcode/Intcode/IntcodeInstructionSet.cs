@@ -9,7 +9,9 @@ namespace Intcode
             new Dictionary<Opcode, IIntcodeInstruction>
             {
                 { AdditionInstruction.Opcode, new AdditionInstruction() },
-                { MultiplicationInstruction.Opcode, new MultiplicationInstruction() }
+                { MultiplicationInstruction.Opcode, new MultiplicationInstruction() },
+                { LoadInstruction.Opcode, new LoadInstruction() },
+                { OutputInstruction.Opcode, new OutputInstruction() },
             };
 
         public static bool Contains(int opcode, out IIntcodeInstruction instruction)
@@ -26,6 +28,9 @@ namespace Intcode
         {
             Addition = 1,
             Multiplication = 2,
+            Load = 3,
+            Output = 4,
+
             Stop = 99
         }
     }

@@ -14,7 +14,7 @@ namespace Intcode
             Memory = operations?.ToArray().AsMemory() ?? throw new ArgumentNullException(nameof(operations));
         }
 
-        public string Execute(in string input = null)
+        public void Execute()
         {
             var executable = Memory.Span;
 
@@ -35,13 +35,15 @@ namespace Intcode
                     var currentInstruction = executable.Slice(instructionPointer, instruction.Size);
                     var arguments = ResolveArguments(executable, currentInstruction, parameters);
 
-                    instruction.Execute(arguments[0], arguments[1], ref executable[currentInstruction[3]]);
+                    instruction.Execute(arguments[0], arguments[1], ref executable[currentInstruction[^1]]);
+
+                    instructionPointer += instruction.Size;
                 }
-
-                instructionPointer += instruction.Size;
+                else
+                {
+                    instructionPointer += 1;
+                }
             }
-
-            return string.Empty;
         }
 
         private static Span<int> GetParameters(in int parametersDescriptor)
@@ -63,6 +65,8 @@ namespace Intcode
             var arguments = new int[parameters.Length];
             for (var i = 0; i < parameters.Length; i++)
             {
+                if (i >= instruction.Length - 1) break;
+
                 if (parameters[i] == 0)
                 {
                     arguments[i] = program[instruction[i + 1]];

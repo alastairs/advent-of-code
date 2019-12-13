@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using Xunit;
 
 namespace Intcode.Tests
@@ -85,11 +88,14 @@ namespace Intcode.Tests
         public void IO_Sample_cases_are_evaluated_correctly(string initialState, string finalState, string input, string expectedOutput)
         {
             var program = new IntcodeParser().Parse(initialState);
+            Console.SetIn(new StringReader(input));
 
-            var actualOutput = program.Execute(input);
+            var actualOutput = new StringBuilder();
+            Console.SetOut(new StringWriter(actualOutput));
+            program.Execute();
 
             Assert.Equal(finalState, string.Join(",", program.Memory.ToArray()));
-            Assert.Equal(expectedOutput, actualOutput);
+            Assert.Equal(expectedOutput, actualOutput.ToString());
         }
 
         public static IEnumerable<object[]> IOSampleCases()
@@ -100,14 +106,14 @@ namespace Intcode.Tests
                 // Initial state
                 "3,0,4,0,99",
 
-                // Final state is no different
-                "3,0,4,0,99",
+                // Final state has input loaded to address 0
+                "5,0,4,0,99",
 
                 // Input
                 "5",
 
                 // Output is identical to input
-                "5"
+                "5" + Environment.NewLine
             };
 
             yield return new object[]
@@ -119,7 +125,22 @@ namespace Intcode.Tests
                 "1002,4,3,4,99",
 
                 // Accepts no input, returns no output
-                null, ""
+                "", ""
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,13,1,13,6,6,1100,1,238,13,104,0,99,13",
+
+                // Final state
+                "3,13,1,13,6,6,1101,1,238,13,104,0,99,239",
+
+                // Input
+                "1",
+
+                // Output
+                "0" + Environment.NewLine
             };
         }
     }
