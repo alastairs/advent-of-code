@@ -17,6 +17,11 @@ namespace Intcode
             return InstructionSet.TryGetValue((Opcode)opcode, out instruction);
         }
 
+        public static bool IsStop(int opcode)
+        {
+            return opcode == (int)Opcode.Stop;
+        }
+
         internal enum Opcode
         {
             Addition = 1,

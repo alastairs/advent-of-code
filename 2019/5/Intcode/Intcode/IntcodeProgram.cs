@@ -19,17 +19,68 @@ namespace Intcode
             var executable = Memory.Span;
 
             var instructionPointer = 0;
-            while(!IntcodeInstruction.IsStop(executable[instructionPointer]))
+            while(!IntcodeInstructionSet.IsStop(executable[instructionPointer]))
             {
-                if (IntcodeInstructionSet.Contains(executable[instructionPointer], out var instruction))
+                var opcode = executable[instructionPointer];
+                var parameters = new[] { 0, 0, 0 }.AsSpan();
+
+                if (HasParameters(opcode))
                 {
-                    new IntcodeInstruction(executable.Slice(instructionPointer, instruction.Size)).Execute(executable);
+                    parameters = GetParameters((int) Math.Truncate(opcode / 100d));
+                    opcode %= 100;
+                }
+
+                if (IntcodeInstructionSet.Contains(opcode, out var instruction))
+                {
+                    var currentInstruction = executable.Slice(instructionPointer, instruction.Size);
+                    var arguments = ResolveArguments(executable, currentInstruction, parameters);
+
+                    instruction.Execute(arguments[0], arguments[1], ref executable[currentInstruction[3]]);
                 }
 
                 instructionPointer += instruction.Size;
             }
 
             return string.Empty;
+        }
+
+        private static Span<int> GetParameters(in int parametersDescriptor)
+        {
+            var parameters = new int[3];
+            for (var i = 0; i < 3; i++)
+            {
+                var power = Math.Pow(10, i + 1);
+                var result = parametersDescriptor / power;
+                result -= Math.Truncate(result);
+                parameters[i] = (int)(result * 10);
+            }
+
+            return parameters.AsSpan();
+        }
+
+        private static int[] ResolveArguments(in Span<int> program, in Span<int> instruction, in Span<int> parameters)
+        {
+            var arguments = new int[parameters.Length];
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                if (parameters[i] == 0)
+                {
+                    arguments[i] = program[instruction[i + 1]];
+                }
+
+                if (parameters[i] == 1)
+                {
+                    arguments[i] = instruction[i + 1];
+                }
+            }
+
+            return arguments;
+        }
+
+
+        private static bool HasParameters(in int opcode)
+        {
+            return opcode > 99;
         }
 
         public IntcodeProgram Copy()

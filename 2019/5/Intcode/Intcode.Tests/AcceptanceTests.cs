@@ -109,6 +109,18 @@ namespace Intcode.Tests
                 // Output is identical to input
                 "5"
             };
+
+            yield return new object[]
+            {
+                // Initial state
+                "1002,4,3,4,33",
+
+                // Final state
+                "1002,4,3,4,99",
+
+                // Accepts no input, returns no output
+                null, ""
+            };
         }
     }
 }
