@@ -12,6 +12,8 @@ namespace Intcode
                 { MultiplicationInstruction.Opcode, new MultiplicationInstruction() },
                 { LoadInstruction.Opcode, new LoadInstruction() },
                 { OutputInstruction.Opcode, new OutputInstruction() },
+                { JumpIfTrueInstruction.Opcode, new JumpIfTrueInstruction() },
+                { JumpIfFalseInstruction.Opcode, new JumpIfFalseInstruction() },
                 { LessThanInstruction.Opcode, new LessThanInstruction() },
                 { EqualsInstruction.Opcode, new EqualsInstruction() },
             };
@@ -26,14 +28,20 @@ namespace Intcode
             return opcode == (int)Opcode.Stop;
         }
 
+        public static bool IsJump(int opcode)
+        {
+            return opcode == (int) Opcode.JumpIfTrue ||
+                   opcode == (int) Opcode.JumpIfFalse;
+        }
+
         internal enum Opcode
         {
             Addition = 1,
             Multiplication = 2,
             Load = 3,
             Output = 4,
-            //JumpIfTrue = 5,
-            //JumpIfFalse = 6,
+            JumpIfTrue = 5,
+            JumpIfFalse = 6,
             LessThan = 7,
             Equals = 8,
 

@@ -35,9 +35,17 @@ namespace Intcode
                     var currentInstruction = executable.Slice(instructionPointer, instruction.Size);
                     var arguments = ResolveArguments(executable, currentInstruction, parameters);
 
-                    instruction.Execute(arguments[0], arguments[1], ref executable[currentInstruction[^1]]);
+                    var newInstructionPointer = instruction.Execute(arguments[0], arguments[1],
+                        ref executable[currentInstruction[^1]]);
 
-                    instructionPointer += instruction.Size;
+                    if (IntcodeInstructionSet.IsJump(opcode))
+                    {
+                        instructionPointer = newInstructionPointer;
+                    }
+                    else
+                    {
+                        instructionPointer += newInstructionPointer;
+                    }
                 }
                 else
                 {

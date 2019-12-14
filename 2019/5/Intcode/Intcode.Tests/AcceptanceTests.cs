@@ -255,5 +255,93 @@ namespace Intcode.Tests
                 "0"
             };
         }
+
+        [Theory, MemberData(nameof(BranchingSampleCases))]
+        public void Branching_sample_cases_are_evaluated_correctly(string initialState, string input, string expectedOutput)
+        {
+            var program = new IntcodeParser().Parse(initialState);
+            Console.SetIn(new StringReader(input));
+
+            var actualOutput = new StringBuilder();
+            Console.SetOut(new StringWriter(actualOutput));
+            program.Execute();
+
+            Assert.Equal(expectedOutput, actualOutput.ToString().Trim());
+        }
+
+        public static IEnumerable<object[]> BranchingSampleCases()
+        {
+            yield return new object[]
+            {
+                // Initial state
+                "3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9",
+
+                // Input
+                "0",
+
+                // Output
+                "0"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9",
+
+                // Input
+                "1",
+
+                // Output
+                "1"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9",
+
+                // Input
+                "-1",
+
+                // Output
+                "1"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,3,1105,-1,9,1101,0,0,12,4,12,99,1",
+
+                // Input
+                "0",
+
+                // Output
+                "0"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,3,1105,-1,9,1101,0,0,12,4,12,99,1",
+
+                // Input
+                "1",
+
+                // Output
+                "1"
+            };
+
+            yield return new object[]
+            {
+                // Initial state
+                "3,3,1105,-1,9,1101,0,0,12,4,12,99,1",
+
+                // Input
+                "-1",
+
+                // Output
+                "1"
+            };
+        }
     }
 }

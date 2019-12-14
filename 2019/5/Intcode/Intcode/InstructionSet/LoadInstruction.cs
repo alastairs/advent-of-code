@@ -8,10 +8,12 @@ namespace Intcode.InstructionSet
 
         public int Size => 2;
 
-        public void Execute(int _, int __, ref int outputAddress)
+        public int Execute(int _, int __, ref int outputAddress)
         {
             var rawInput = Console.ReadLine();
             outputAddress = int.Parse(rawInput);
+
+            return Size;
         }
     }
 }

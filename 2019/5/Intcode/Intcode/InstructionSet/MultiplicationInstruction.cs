@@ -6,9 +6,10 @@
 
         public int Size => 4;
 
-        public void Execute(int address1, int address2, ref int outputAddress)
+        public int Execute(int address1, int address2, ref int outputAddress)
         {
             outputAddress = address1 * address2;
+            return Size;
         }
     }
 }

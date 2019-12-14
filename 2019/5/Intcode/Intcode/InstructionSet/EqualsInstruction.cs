@@ -6,9 +6,10 @@
 
         public int Size => 4;
 
-        public void Execute(int value1, int value2, ref int outputAddress)
+        public int Execute(int value1, int value2, ref int outputAddress)
         {
             outputAddress = value1 == value2 ? 1 : 0;
+            return Size;
         }
     }
 }
