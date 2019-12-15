@@ -8,7 +8,7 @@ namespace Intcode.InstructionSet
 
         public int Size => 2;
 
-        public int Execute(int value, int _, ref int outputAddress)
+        public int Execute(int value, int _, ref int __)
         {
             Console.WriteLine(value);
 

@@ -6,7 +6,7 @@
 
         public int Size => 3;
 
-        public int Execute(int address1, int address2, ref int outputAddress)
+        public int Execute(int address1, int address2, ref int _)
         {
             return address1 != 0 ? address2 : Size;
         }
