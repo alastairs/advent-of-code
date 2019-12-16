@@ -1,9 +1,11 @@
-﻿namespace Intcode.InstructionSet
+﻿using System;
+
+namespace Intcode.InstructionSet
 {
     internal interface IIntcodeInstruction
     {
         int Size { get; }
 
-        void Execute(int address1, int address2, ref int outputAddress, ref int instructionPointer);
+        void Execute(int address1, int address2, int outputAddress, ref Span<int> memory, ref int instructionPointer);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Intcode.InstructionSet
+﻿using System;
+
+namespace Intcode.InstructionSet
 {
     internal class AdditionInstruction : IIntcodeInstruction
     {
@@ -6,9 +8,9 @@
 
         public int Size => 4;
 
-        public void Execute(int address1, int address2, ref int outputAddress, ref int instructionPointer)
+        public void Execute(int address1, int address2, int outputAddress, ref Span<int> memory, ref int instructionPointer)
         {
-            outputAddress = address1 + address2;
+            memory[outputAddress] = address1 + address2;
             instructionPointer += Size;
         }
     }

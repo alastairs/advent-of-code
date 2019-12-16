@@ -1,4 +1,6 @@
-﻿namespace Intcode.InstructionSet
+﻿using System;
+
+namespace Intcode.InstructionSet
 {
     internal class JumpIfFalseInstruction : IIntcodeInstruction
     {
@@ -6,7 +8,7 @@
 
         public int Size => 3;
 
-        public void Execute(int address1, int address2, ref int outputAddress, ref int instructionPointer)
+        public void Execute(int address1, int address2, int _, ref Span<int> __, ref int instructionPointer)
         {
             instructionPointer = address1 == 0 ? address2 : instructionPointer + Size;
         }

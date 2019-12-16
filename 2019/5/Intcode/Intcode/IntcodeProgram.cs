@@ -36,7 +36,7 @@ namespace Intcode
                     var arguments = ResolveArguments(executable, currentInstruction, parameters);
 
                     instruction.Execute(arguments[0], arguments[1],
-                        ref executable[currentInstruction[^1]], ref instructionPointer);
+                        currentInstruction[^1], ref executable, ref instructionPointer);
                 }
                 else
                 {
