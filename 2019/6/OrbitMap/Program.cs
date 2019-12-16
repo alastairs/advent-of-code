@@ -13,7 +13,7 @@ namespace OrbitMap
                 return;
             }
 
-            var mapDescriptor = File.ReadAllText(args[0]);
+            var mapDescriptor = File.ReadAllLines(args[0]);
             var map = OrbitMap.Parse(mapDescriptor);
             Console.WriteLine("Previously-calculated total of 3328 was too low.");
             Console.WriteLine($"Total orbits in the map is: {map.TotalOrbits()}");
