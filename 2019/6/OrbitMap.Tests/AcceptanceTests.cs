@@ -42,5 +42,27 @@ K)L
 A)B");
             Assert.Equal(2, map.OrbitsFrom("B"));
         }
+
+        [Fact]
+        public void Orbital_transfer_sample_works()
+        {
+            var map = OrbitMap.Parse(@"COM)B
+B)C
+C)D
+D)E
+E)F
+B)G
+G)H
+D)I
+E)J
+J)K
+K)L
+K)YOU
+I)SAN");
+
+            var actual = map.TransfersTo(from: "YOU", to: "SAN");
+
+            Assert.Equal(4, actual);
+        }
     }
 }

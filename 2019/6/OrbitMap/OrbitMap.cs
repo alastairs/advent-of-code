@@ -36,6 +36,28 @@ namespace OrbitMap
             return 1 + OrbitsFrom(_orbits[body]!);
         }
 
+        public int TransfersTo(in string from = "YOU", in string to = "SAN")
+        {
+            var fromParentList = ParentsOf(from);
+            var toParentList = ParentsOf(to);
+
+            var commonParents = fromParentList.Reverse().Intersect(toParentList.Reverse()).ToList();
+
+            return fromParentList.ToList().IndexOf(commonParents.Last()) + toParentList.ToList().IndexOf(commonParents.Last()) - 2;
+        }
+
+        private IEnumerable<string> ParentsOf(in string body)
+        {
+            var parents = new List<string>();
+
+            for(var current = body; _orbits[current] != null; current = _orbits[current]!)
+            {
+                parents.Add(current);
+            }
+
+            return parents;
+        }
+
         public int TotalOrbits()
         {
             return _orbits.Keys.Sum(o => OrbitsFrom(o));
