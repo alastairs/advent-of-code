@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OrbitMap": {
+      "commandName": "Project",
+      "commandLineArgs": "$(ProjectDir)/input.txt"
+    }
+  }
+}
