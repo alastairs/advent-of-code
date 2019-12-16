@@ -8,11 +8,10 @@ namespace Intcode.InstructionSet
 
         public int Size => 2;
 
-        public int Execute(int value, int _, ref int __)
+        public void Execute(int address1, int address2, ref int outputAddress, ref int instructionPointer)
         {
-            Console.WriteLine(value);
-
-            return Size;
+            Console.WriteLine(address1);
+            instructionPointer += Size;
         }
     }
 }

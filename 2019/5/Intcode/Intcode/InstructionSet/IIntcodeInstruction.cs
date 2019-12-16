@@ -4,6 +4,6 @@
     {
         int Size { get; }
 
-        int Execute(int address1, int address2, ref int outputAddress);
+        void Execute(int address1, int address2, ref int outputAddress, ref int instructionPointer);
     }
 }

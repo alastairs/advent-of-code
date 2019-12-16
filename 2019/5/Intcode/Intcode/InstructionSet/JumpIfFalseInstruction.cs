@@ -6,9 +6,9 @@
 
         public int Size => 3;
 
-        public int Execute(int address1, int address2, ref int _)
+        public void Execute(int address1, int address2, ref int outputAddress, ref int instructionPointer)
         {
-            return address1 == 0 ? address2 : Size;
+            instructionPointer = address1 == 0 ? address2 : instructionPointer + Size;
         }
     }
 }

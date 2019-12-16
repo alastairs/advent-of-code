@@ -6,10 +6,10 @@
 
         public int Size => 4;
 
-        public int Execute(int address1, int address2, ref int outputAddress)
+        public void Execute(int address1, int address2, ref int outputAddress, ref int instructionPointer)
         {
             outputAddress = address1 * address2;
-            return Size;
+            instructionPointer += Size;
         }
     }
 }
