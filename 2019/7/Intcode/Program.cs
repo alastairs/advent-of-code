@@ -22,14 +22,14 @@ Execute a file from input:
 
             if (File.Exists(args[0]))
             {
-                ExecuteProgram(ParseInput(File.ReadAllText(args[0])));
+                ExecuteProgram(ParseProgram(File.ReadAllText(args[0])));
                 return;
             }
 
-            ExecuteProgram(ParseInput(args[0]));
+            ExecuteProgram(ParseProgram(args[0]));
         }
 
-        private static IntcodeProgram ParseInput(string input)
+        private static IntcodeProgram ParseProgram(string input)
         {
             Console.WriteLine($"Input: {input}");
 
